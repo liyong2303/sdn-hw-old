@@ -441,10 +441,10 @@ public class VpnOperateController extends BaseController {
 			// 查询AOP时长
 
 			// TODO
-			/*TaopResult rs = AopUtil.queryAop(new TaopQuery(t.getProductCode(),
-					new SimpleDateFormat("yyyyMM").format(new Date()), t.getEparchyCode()));*/
-			 TaopResult rs = new TaopResult();
-			 rs.setFreeTimeLeft("1200");
+			TaopResult rs = AopUtil.queryAop(new TaopQuery(t.getProductCode(),
+					new SimpleDateFormat("yyyyMM").format(new Date()), t.getEparchyCode()));
+//			 TaopResult rs = new TaopResult();
+//			 rs.setFreeTimeLeft("1200");
 
 			if (StringUtils.isNotBlank(rs.getFreeTimeLeft())) {
 				Integer freeTimeLeft = Integer.valueOf(rs.getFreeTimeLeft());
