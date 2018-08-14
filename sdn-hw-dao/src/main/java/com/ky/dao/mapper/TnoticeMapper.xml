@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ky.dao.TnoticeMapper">
+
+	<resultMap id="Tnotice" type="com.ky.model.Tnotice">
+		<result property="id" column="ID" />
+		<result property="companyId" column="COMPANY_ID" />
+		<result property="busiId" column="BUSI_ID" />
+		<result property="busiCode" column="BUSI_CODE" />
+		<result property="busiTypeId" column="BUSI_TYPE_ID" />
+		<result property="noticeTypeId" column="NOTICE_TYPE_ID" />
+		<result property="type" column="TYPE" />
+		<result property="redirectId" column="REDIRECT_ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="createTime" column="CREATE_TIME" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,COMPANY_ID,BUSI_ID,BUSI_CODE,BUSI_TYPE_ID,NOTICE_TYPE_ID,TYPE,REDIRECT_ID,TITLE,CONTENT,CREATE_TIME
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO T_NOTICE (
+        	ID ,
+        	COMPANY_ID ,
+        	BUSI_ID ,
+        	BUSI_CODE ,
+        	BUSI_TYPE_ID ,
+        	NOTICE_TYPE_ID ,
+        	TYPE ,
+        	REDIRECT_ID ,
+        	TITLE ,
+        	CONTENT ,
+        	CREATE_TIME 
+        ) VALUES (
+        	#{id} ,
+        	#{companyId} ,
+        	#{busiId} ,
+        	#{busiCode} ,
+        	#{busiTypeId} ,
+        	#{noticeTypeId} ,
+        	#{type} ,
+        	#{redirectId} ,
+        	#{title} ,
+        	#{content} ,
+        	#{createTime} 
+        )
+    ]]>
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE T_NOTICE SET
+	        COMPANY_ID = #{companyId} ,
+	        BUSI_ID = #{busiId} ,
+	        BUSI_CODE = #{busiCode} ,
+	        BUSI_TYPE_ID = #{busiTypeId} ,
+	        NOTICE_TYPE_ID = #{noticeTypeId} ,
+	        TYPE = #{type} ,
+	        REDIRECT_ID = #{redirectId} ,
+	        TITLE = #{title} ,
+	        CONTENT = #{content} ,
+	        CREATE_TIME = #{createTime} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM T_NOTICE WHERE
+        ID = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="Tnotice">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM T_NOTICE 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findPageWhere">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用codegen中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(companyId)">
+				AND COMPANY_ID = #{companyId}
+			</if>
+			<if test="@Ognl@isNotEmpty(busiId)">
+				AND BUSI_ID = #{busiId}
+			</if>
+			<if test="@Ognl@isNotEmpty(busiCode)">
+				AND BUSI_CODE = #{busiCode}
+			</if>
+			<if test="@Ognl@isNotEmpty(busiTypeId)">
+				AND BUSI_TYPE_ID = #{busiTypeId}
+			</if>
+			<if test="@Ognl@isNotEmpty(noticeTypeId)">
+				AND NOTICE_TYPE_ID = #{noticeTypeId}
+			</if>
+			<if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+			<if test="@Ognl@isNotEmpty(redirectId)">
+				AND REDIRECT_ID = #{redirectId}
+			</if>
+			<if test="@Ognl@isNotEmpty(title)">
+				AND TITLE = #{title}
+			</if>
+			<if test="@Ognl@isNotEmpty(content)">
+				AND CONTENT = #{content}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND CREATE_TIME >= #{createTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND CREATE_TIME &lt;= #{createTimeEnd}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="findPage" resultMap="Tnotice">
+		SELECT
+		<include refid="columns" />
+		FROM T_NOTICE
+		<include refid="findPageWhere" />
+
+	</select>
+
+	<insert id="insert" parameterType="com.ky.model.Tnotice">
+		INSERT INTO T_NOTICE (
+		COMPANY_ID ,
+		BUSI_ID ,
+		BUSI_CODE ,
+		BUSI_TYPE_ID ,
+		NOTICE_TYPE_ID ,
+		TYPE ,
+		REDIRECT_ID ,
+		TITLE ,
+		CONTENT ,
+		CREATE_TIME
+		) VALUES (
+		#{companyId} ,
+		#{busiId} ,
+		#{busiCode} ,
+		#{busiTypeId} ,
+		#{noticeTypeId} ,
+		#{type} ,
+		#{redirectId} ,
+		#{title} ,
+		#{content} ,
+		#{createTime}
+		)
+	</insert>
+
+
+</mapper>
+

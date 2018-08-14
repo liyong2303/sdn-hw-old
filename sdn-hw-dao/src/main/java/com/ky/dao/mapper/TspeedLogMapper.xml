@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ky.dao.TspeedLogMapper">
+
+	<resultMap id="TspeedLog" type="com.ky.model.TspeedLog">
+		<result property="speedLogId" column="SPEED_LOG_ID" />
+		<result property="busiId" column="BUSI_ID" />
+		<result property="companyId" column="COMPANY_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="upBandwidth" column="UP_BANDWIDTH" />
+		<result property="downBandwidth" column="DOWN_BANDWIDTH" />
+		<result property="upBandwidthSpeeded" column="UP_BANDWIDTH_SPEEDED" />
+		<result property="downBandwidthSpeeded" column="DOWN_BANDWIDTH_SPEEDED" />
+		<result property="currentMonth" column="CURRENT_MONTH" />
+		<result property="optType" column="OPT_TYPE" />
+		<result property="beginTime" column="BEGIN_TIME" />
+		<result property="endTime" column="END_TIME" />
+		<result property="minutes" column="MINUTES" />
+		<result property="finished" column="FINISHED" />
+		<result property="productCode" column="PRODUCT_CODE" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		SPEED_LOG_ID,BUSI_ID,COMPANY_ID,USER_ID,UP_BANDWIDTH,DOWN_BANDWIDTH,UP_BANDWIDTH_SPEEDED,DOWN_BANDWIDTH_SPEEDED,CURRENT_MONTH,OPT_TYPE,BEGIN_TIME,END_TIME,MINUTES,FINISHED,PRODUCT_CODE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="speedLogId">
+    <![CDATA[
+        INSERT INTO T_SPEED_LOG (
+        	SPEED_LOG_ID ,
+        	BUSI_ID ,
+        	COMPANY_ID ,
+        	USER_ID ,
+        	UP_BANDWIDTH ,
+        	DOWN_BANDWIDTH ,
+        	UP_BANDWIDTH_SPEEDED ,
+        	DOWN_BANDWIDTH_SPEEDED ,
+        	CURRENT_MONTH ,
+        	OPT_TYPE ,
+        	BEGIN_TIME ,
+        	END_TIME ,
+        	MINUTES,
+        	FINISHED,
+        	PRODUCT_CODE 
+        ) VALUES (
+        	#{speedLogId} ,
+        	#{busiId} ,
+        	#{companyId} ,
+        	#{userId} ,
+        	#{upBandwidth} ,
+        	#{downBandwidth} ,
+        	#{upBandwidthSpeeded} ,
+        	#{downBandwidthSpeeded} ,
+        	#{currentMonth} ,
+        	#{optType} ,
+        	#{beginTime} ,
+        	#{endTime} ,
+        	#{minutes} ,
+        	#{finished},
+        	#{productCode},
+        )
+    ]]>
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE T_SPEED_LOG SET
+	        BUSI_ID = #{busiId} ,
+	        COMPANY_ID = #{companyId} ,
+	        USER_ID = #{userId} ,
+	        UP_BANDWIDTH = #{upBandwidth} ,
+	        DOWN_BANDWIDTH = #{downBandwidth} ,
+	        UP_BANDWIDTH_SPEEDED = #{upBandwidthSpeeded} ,
+	        DOWN_BANDWIDTH_SPEEDED = #{downBandwidthSpeeded} ,
+	        CURRENT_MONTH = #{currentMonth} ,
+	        OPT_TYPE = #{optType} ,
+	        BEGIN_TIME = #{beginTime} ,
+	        END_TIME = #{endTime} ,
+	        MINUTES = #{minutes} ,
+	        FINISHED = #{finished}
+        WHERE 
+	        SPEED_LOG_ID = #{speedLogId} 
+    ]]>
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM T_SPEED_LOG WHERE
+        SPEED_LOG_ID = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="TspeedLog">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM T_SPEED_LOG 
+	        WHERE 
+		        SPEED_LOG_ID = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findPageWhere">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用codegen中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="@Ognl@isNotEmpty(speedLogId)">
+				AND SPEED_LOG_ID = #{speedLogId}
+			</if>
+			<if test="@Ognl@isNotEmpty(busiId)">
+				AND BUSI_ID = #{busiId}
+			</if>
+			<if test="@Ognl@isNotEmpty(companyId)">
+				AND COMPANY_ID = #{companyId}
+			</if>
+			<if test="@Ognl@isNotEmpty(userId)">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="@Ognl@isNotEmpty(upBandwidth)">
+				AND UP_BANDWIDTH = #{upBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(downBandwidth)">
+				AND DOWN_BANDWIDTH = #{downBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(upBandwidthSpeeded)">
+				AND UP_BANDWIDTH_SPEEDED = #{upBandwidthSpeeded}
+			</if>
+			<if test="@Ognl@isNotEmpty(downBandwidthSpeeded)">
+				AND DOWN_BANDWIDTH_SPEEDED = #{downBandwidthSpeeded}
+			</if>
+			<if test="@Ognl@isNotEmpty(currentMonth)">
+				AND CURRENT_MONTH = #{currentMonth}
+			</if>
+			<if test="@Ognl@isNotEmpty(optType)">
+				AND OPT_TYPE = #{optType}
+			</if>
+			<if test="@Ognl@isNotEmpty(beginTime)">
+				AND BEGIN_TIME >= #{beginTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(endTime)">
+				AND END_TIME >= #{endTime}
+			</if>
+			<if test="@Ognl@isNotEmpty(minutes)">
+				AND MINUTES = #{minutes}
+			</if>
+			<if test="@Ognl@isNotEmpty(finished)">
+				AND FINISHED = #{finished}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="findPage" resultMap="TspeedLog">
+		SELECT
+		<include refid="columns" />
+		FROM T_SPEED_LOG
+		<include refid="findPageWhere" />
+
+	</select>
+
+	<insert id="insert" parameterType="com.ky.model.TspeedLog"
+		useGeneratedKeys="true" keyProperty="speedLogId">
+		INSERT INTO T_SPEED_LOG (
+		BUSI_ID ,
+		PRODUCT_CODE,
+		COMPANY_ID ,
+		USER_ID ,
+		UP_BANDWIDTH ,
+		DOWN_BANDWIDTH ,
+		UP_BANDWIDTH_SPEEDED ,
+		DOWN_BANDWIDTH_SPEEDED ,
+		CURRENT_MONTH ,
+		OPT_TYPE ,
+		BEGIN_TIME ,
+		END_TIME ,
+		MINUTES,
+		FINISHED
+		) VALUES (
+		#{busiId} ,
+		#{productCode} ,
+		#{companyId} ,
+		#{userId} ,
+		#{upBandwidth} ,
+		#{downBandwidth} ,
+		#{upBandwidthSpeeded} ,
+		#{downBandwidthSpeeded} ,
+		#{currentMonth} ,
+		#{optType} ,
+		#{beginTime} ,
+		#{endTime} ,
+		#{minutes} ,
+		#{finished}
+		)
+	</insert>
+
+	<update id="updateSpeedLogByZxIdAndFinished">
+		UPDATE T_SPEED_LOG t SET
+		END_TIME = #{endTime},
+		MINUTES = #{countMins},
+		UP_BANDWIDTH_SPEEDED = #{upspeed},
+		DOWN_BANDWIDTH_SPEEDED = #{downspeed},
+		FINISHED = #{finished},
+		UPDATE_USER_ID = #{updateUserId}
+		WHERE FINISHED = 0
+		AND BUSI_ID =
+		#{busiId}
+	</update>
+
+	<update id="updateAsySpeedLogByZxIdAndFinished">
+		UPDATE T_SPEED_LOG t SET
+		END_TIME = #{endTime},
+		MINUTES = #{countMins},
+		FINISHED = #{finished},
+		UPDATE_USER_ID =
+		#{updateUserId}
+		WHERE FINISHED = 0
+		AND BUSI_ID = #{busiId}
+	</update>
+
+	<select id="querySum" resultType="int">
+		select COALESCE(SUM(t.MINUTES),0) from T_SPEED_LOG t WHERE
+		t.BUSI_ID=#{busiId} and t.CURRENT_MONTH=#{currentMonth}
+	</select>
+
+	<select id="queryOne" resultMap="TspeedLog">
+		SELECT
+		<include refid="columns" />
+		FROM T_SPEED_LOG
+		<!-- <include refid="findPageWhere"/> -->
+		where BUSI_ID = #{busiId} AND FINISHED = #{finished}
+	</select>
+</mapper>
+

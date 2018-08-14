@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ky.dao.ThwOperateMapper">
+
+	<resultMap id="ThwOperate" type="com.ky.model.ThwOperate">
+        <result property="id" column="ID"/>
+        <result property="workOrderNo" column="workOrderNo"/>
+        <result property="vpnUUID" column="vpnUUID"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,workOrderNo,vpnUUID
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO T_HW_OPERATE (
+        	ID ,
+        	workOrderNo ,
+        	vpnUUID 
+        ) VALUES (
+        	#{id} ,
+        	#{workOrderNo} ,
+        	#{vpnUUID} 
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" >
+    <![CDATA[
+        UPDATE T_HW_OPERATE SET
+	        workOrderNo = #{workOrderNo} ,
+	        vpnUUID = #{vpnUUID} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+    <delete id="delete">
+    <![CDATA[
+        DELETE FROM T_HW_OPERATE WHERE
+        ID = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="getById" resultMap="ThwOperate">
+		SELECT <include refid="columns" />
+	    <![CDATA[
+		    FROM T_HW_OPERATE 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="findPageWhere">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用codegen中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+	       <if test="@Ognl@isNotEmpty(workOrderNo)">
+				AND workOrderNo = #{workOrderNo}
+			</if>
+	       <if test="@Ognl@isNotEmpty(vpnUUID)">
+				AND vpnUUID = #{vpnUUID}
+			</if>
+		</where>
+	</sql>
+		
+
+    <select id="findPage" resultMap="ThwOperate">
+    	SELECT <include refid="columns" />
+	    FROM T_HW_OPERATE 
+		<include refid="findPageWhere"/>
+	
+    </select>
+    
+
+	
+</mapper>
+

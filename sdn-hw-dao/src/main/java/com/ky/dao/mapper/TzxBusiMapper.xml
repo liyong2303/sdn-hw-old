@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ky.dao.TzxBusiMapper">
+
+	<resultMap id="TzxBusi" type="com.ky.model.TzxBusi">
+		<result property="id" column="ID" />
+		<result property="sheetNo" column="SHEET_NO" />
+		<result property="productCode" column="PRODUCT_CODE" />
+		<result property="companyId" column="COMPANY_ID" />
+		<result property="mangerUserId" column="MANGER_USER_ID" />
+		<result property="installedAddr" column="INSTALLED_ADDR" />
+		<result property="upBandwidth" column="UP_BANDWIDTH" />
+		<result property="downBandwidth" column="DOWN_BANDWIDTH" />
+		<result property="currentUpBandwidth" column="CURRENT_UP_BANDWIDTH" />
+		<result property="currentDownBandwidth" column="CURRENT_DOWN_BANDWIDTH" />
+		<result property="ipNum" column="IP_NUM" />
+		<result property="ip" column="IP" />
+		<result property="zxStatus" column="ZX_STATUS" />
+		<result property="freeBandwidthUsed" column="FREE_BANDWIDTH_USED" />
+		<result property="freeBandwidthLimit" column="FREE_BANDWIDTH_LIMIT" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="updateTime" column="UPDATE_TIME" />
+		<result property="type" column="TYPE" />
+		<result property="eparchyCode" column="EPARCHY_CODE" />
+	</resultMap>
+
+	<!-- <resultMap id="TzxBusi" type="com.ky.model.TzxBusi"> <result property="id" 
+		column="ID"/> <result property="sheetNo" column="SHEET_NO"/> <result property="productCode" 
+		column="PRODUCT_CODE"/> <result property="companyId" column="COMPANY_ID"/> 
+		<result property="mangerUserId" column="MANGER_USER_ID"/> <result property="installedAddr" 
+		column="INSTALLED_ADDR"/> <result property="upBandwidth" column="UP_BANDWIDTH"/> 
+		<result property="downBandwidth" column="DOWN_BANDWIDTH"/> <result property="currentUpBandwidth" 
+		column="CURRENT_UP_BANDWIDTH"/> <result property="currentDownBandwidth" column="CURRENT_DOWN_BANDWIDTH"/> 
+		<result property="ipNum" column="IP_NUM"/> <result property="ip" column="IP"/> 
+		<result property="zxStatus" column="ZX_STATUS"/> <result property="freeBandwidthUsed" 
+		column="FREE_BANDWIDTH_USED"/> <result property="freeBandwidthLimit" column="FREE_BANDWIDTH_LIMIT"/> 
+		<result property="createTime" column="CREATE_TIME"/> <result property="updateTime" 
+		column="UPDATE_TIME"/> <result property="type" column="TYPE"/> <result property="companyName" 
+		column="COMPANY_NAME"/> <result property="mangerName" column="MANGER_NAME"/> 
+		<result property="busiCode" column="BUSI_CODE"/> <result property="normal" 
+		column="NORMAL"/> <result property="breakDownStatus" column="BREAK_DOWN_STATUS"/> 
+		<result property="eparchyCode" column="EPARCHY_CODE"/> </resultMap> -->
+
+	<resultMap type="com.ky.model.vo.TzxBusiVo" id="TzxBusiVo">
+		<result property="id" column="ID" />
+		<result property="sheetNo" column="SHEET_NO" />
+		<result property="productCode" column="PRODUCT_CODE" />
+		<result property="customerId" column="CUSTOMER_ID" />
+		<result property="customerName" column="CUSTOMER_NAME" />
+		<result property="installedAddr" column="INSTALLED_ADDR" />
+		<result property="zxStatus" column="ZX_STATUS" />
+		<result property="companyId" column="COMPANY_ID" />
+		<result property="upBandwidth" column="UP_BANDWIDTH" />
+		<result property="downBandwidth" column="DOWN_BANDWIDTH" />
+		<result property="currentUpBandwidth" column="CURRENT_UP_BANDWIDTH" />
+		<result property="currentDownBandwidth" column="CURRENT_DOWN_BANDWIDTH" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+        ID,SHEET_NO,PRODUCT_CODE,COMPANY_ID,MANGER_USER_ID,INSTALLED_ADDR,UP_BANDWIDTH,DOWN_BANDWIDTH,CURRENT_UP_BANDWIDTH,CURRENT_DOWN_BANDWIDTH,IP_NUM,IP,ZX_STATUS,FREE_BANDWIDTH_USED,FREE_BANDWIDTH_LIMIT,CREATE_TIME,UPDATE_TIME,TYPE,EPARCHY_CODE    
+	    ]]>
+	</sql>
+	<!-- ID,SHEET_NO,PRODUCT_CODE,COMPANY_ID,MANGER_USER_ID,INSTALLED_ADDR,UP_BANDWIDTH,DOWN_BANDWIDTH,CURRENT_UP_BANDWIDTH,CURRENT_DOWN_BANDWIDTH,IP_NUM,IP,ZX_STATUS,FREE_BANDWIDTH_USED,FREE_BANDWIDTH_LIMIT,CREATE_TIME,UPDATE_TIME,TYPE,EPARCHY_CODE,BUSI_CODE,NORMAL,BREAK_DOWN_STATUS,MAX_BANDWIDTH -->
+
+	<sql id="TzxBusiVoColumns">
+		<![CDATA[
+		ID,SHEET_NO,PRODUCT_CODE,CUSTOMER_ID,CUSTOMER_NAME,INSTALLED_ADDR
+		 ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO T_ZX_BUSI (
+        	ID ,
+        	SHEET_NO ,
+        	PRODUCT_CODE ,
+        	COMPANY_ID ,
+        	MANGER_USER_ID ,
+        	INSTALLED_ADDR ,
+        	UP_BANDWIDTH ,
+        	DOWN_BANDWIDTH ,
+        	CURRENT_UP_BANDWIDTH ,
+        	CURRENT_DOWN_BANDWIDTH ,
+        	IP_NUM ,
+        	IP ,
+        	ZX_STATUS ,
+        	FREE_BANDWIDTH_USED ,
+        	FREE_BANDWIDTH_LIMIT ,
+        	CREATE_TIME ,
+        	UPDATE_TIME ,
+        	TYPE,
+        	EPARCHY_CODE
+        ) VALUES (
+        	#{id} ,
+        	#{sheetNo} ,
+        	#{productCode} ,
+        	#{companyId} ,
+        	#{mangerUserId} ,
+        	#{installedAddr} ,
+        	#{upBandwidth} ,
+        	#{downBandwidth} ,
+        	#{currentUpBandwidth} ,
+        	#{currentDownBandwidth} ,
+        	#{ipNum} ,
+        	#{ip} ,
+        	#{zxStatus} ,
+        	#{freeBandwidthUsed} ,
+        	#{freeBandwidthLimit} ,
+        	#{createTime} ,
+        	#{updateTime} ,
+        	#{type} ,
+        	#{eparchyCode}
+        ) 
+    ]]>
+		<!-- -->
+
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+	<update id="update">
+		  <![CDATA[ 
+		  	UPDATE T_ZX_BUSI SET
+	        FREE_BANDWIDTH_USED = #{freeBandwidthUsed} 
+        WHERE 
+	        ID = #{id} 
+		   ]]>
+	</update>
+	<!-- SHEET_NO = #{sheetNo} , PRODUCT_CODE = #{productCode} , COMPANY_ID 
+		= #{companyId} , MANGER_USER_ID = #{mangerUserId} , INSTALLED_ADDR = #{installedAddr} 
+		, UP_BANDWIDTH = #{upBandwidth} , DOWN_BANDWIDTH = #{downBandwidth} , CURRENT_UP_BANDWIDTH 
+		= #{currentUpBandwidth} , CURRENT_DOWN_BANDWIDTH = #{currentDownBandwidth} 
+		, IP_NUM = #{ipNum} , IP = #{ip} , ZX_STATUS = #{zxStatus} , FREE_BANDWIDTH_LIMIT 
+		= #{freeBandwidthLimit} , CREATE_TIME = #{createTime} , UPDATE_TIME = #{updateTime} 
+		, TYPE = #{type} , EPARCHY_CODE = #{eparchyCode} -->
+
+
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM T_ZX_BUSI WHERE
+        ID = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="TzxBusi">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM T_ZX_BUSI 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findPageWhere">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用codegen中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(sheetNo)">
+				AND SHEET_NO = #{sheetNo}
+			</if>
+			<if test="@Ognl@isNotEmpty(productCode)">
+				AND PRODUCT_CODE = #{productCode}
+			</if>
+			<if test="@Ognl@isNotEmpty(companyId)">
+				AND COMPANY_ID = #{companyId}
+			</if>
+			<if test="@Ognl@isNotEmpty(mangerUserId)">
+				AND MANGER_USER_ID = #{mangerUserId}
+			</if>
+			<if test="@Ognl@isNotEmpty(installedAddr)">
+				AND INSTALLED_ADDR = #{installedAddr}
+			</if>
+			<if test="@Ognl@isNotEmpty(upBandwidth)">
+				AND UP_BANDWIDTH = #{upBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(downBandwidth)">
+				AND DOWN_BANDWIDTH = #{downBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(currentUpBandwidth)">
+				AND CURRENT_UP_BANDWIDTH = #{currentUpBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(currentDownBandwidth)">
+				AND CURRENT_DOWN_BANDWIDTH = #{currentDownBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(ipNum)">
+				AND IP_NUM = #{ipNum}
+			</if>
+			<if test="@Ognl@isNotEmpty(ip)">
+				AND IP = #{ip}
+			</if>
+			<if test="@Ognl@isNotEmpty(zxStatus)">
+				AND ZX_STATUS = #{zxStatus}
+			</if>
+			<if test="@Ognl@isNotEmpty(freeBandwidthUsed)">
+				AND FREE_BANDWIDTH_USED = #{freeBandwidthUsed}
+			</if>
+			<if test="@Ognl@isNotEmpty(freeBandwidthLimit)">
+				AND FREE_BANDWIDTH_LIMIT = #{freeBandwidthLimit}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND CREATE_TIME >= #{createTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND CREATE_TIME &lt;= #{createTimeEnd}
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND UPDATE_TIME >= #{updateTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND UPDATE_TIME &lt;= #{updateTimeEnd}
+			</if>
+			<if test="@Ognl@isNotEmpty(type)">
+				AND TYPE = #{type}
+			</if>
+			<if test="@Ognl@isNotEmpty(eparchyCode)">
+				AND EPARCHY_CODE = #{eparchyCode}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="findPage" resultMap="TzxBusi">
+		SELECT
+		<include refid="columns" />
+		FROM T_ZX_BUSI
+		<include refid="findPageWhere" />
+
+	</select>
+
+	<select id="findTzxBusiVoById" resultMap="TzxBusiVo">
+		SELECT
+		t.ID,t.SHEET_NO,t.PRODUCT_CODE,t.ZX_STATUS,t.COMPANY_ID,t.UP_BANDWIDTH,t.DOWN_BANDWIDTH,t.CURRENT_UP_BANDWIDTH,t.CURRENT_DOWN_BANDWIDTH,f.CUSTOMER_ID,f.CUSTOMER_NAME,f.INSTALLED_ADDR
+		FROM T_ZX_BUSI t,T_FK_SHEET f
+		WHERE t.ID = #{id}
+		AND f.BUSI_TYPE =
+		#{busiType}
+		AND t.PRODUCT_CODE = f.PRODUCT_CODE
+	</select>
+
+
+	<update id="updateZxStatusById">
+		UPDATE T_ZX_BUSI t
+		SET t.ZX_STATUS = #{zxstatus},
+		t.CURRENT_UP_BANDWIDTH = #{upSpeed},
+		t.CURRENT_DOWN_BANDWIDTH = #{downSpeed},
+		t.UPDATE_TIME = #{endTime}
+		WHERE t.ID = #{id}
+	</update>
+
+</mapper>
+

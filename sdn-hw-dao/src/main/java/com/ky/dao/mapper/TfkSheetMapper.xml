@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ky.dao.TfkSheetMapper">
+
+	<resultMap id="TfkSheet" type="com.ky.model.TfkSheet">
+		<result property="id" column="ID" />
+		<result property="busiType" column="BUSI_TYPE" />
+		<result property="customerName" column="CUSTOMER_NAME" />
+		<result property="orderSign" column="ORDER_SIGN" />
+		<result property="customerId" column="CUSTOMER_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="productCode" column="PRODUCT_CODE" />
+		<result property="sheetNo" column="SHEET_NO" />
+		<result property="city" column="CITY" />
+		<result property="marketingCenter" column="MARKETING_CENTER" />
+		<result property="area" column="AREA" />
+		<result property="installedAddr" column="INSTALLED_ADDR" />
+		<result property="linkName" column="LINK_NAME" />
+		<result property="linkPhone" column="LINK_PHONE" />
+		<result property="packages" column="PACKAGES" />
+		<result property="acceptTime" column="ACCEPT_TIME" />
+		<result property="managerName" column="MANAGER_NAME" />
+		<result property="managerPhone" column="MANAGER_PHONE" />
+		<result property="upBandwidth" column="UP_BANDWIDTH" />
+		<result property="downBandwidth" column="DOWN_BANDWIDTH" />
+		<result property="maxBandwidth" column="MAX_BANDWIDTH" />
+		<result property="ipNum" column="IP_NUM" />
+		<result property="cpeType" column="CPE_TYPE" />
+		<result property="userIdNo" column="USER_ID_NO" />
+		<result property="cpeDeviceCode" column="CPE_DEVICE_CODE" />
+		<result property="sheetType" column="SHEET_TYPE" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+	    <![CDATA[
+		ID,BUSI_TYPE,CUSTOMER_NAME,ORDER_SIGN,CUSTOMER_ID,USER_ID,PRODUCT_CODE,SHEET_NO,CITY,MARKETING_CENTER,AREA,INSTALLED_ADDR,LINK_NAME,LINK_PHONE,PACKAGES,ACCEPT_TIME,MANAGER_NAME,MANAGER_PHONE,UP_BANDWIDTH,DOWN_BANDWIDTH,MAX_BANDWIDTH,IP_NUM,CPE_TYPE,USER_ID_NO,CPE_DEVICE_CODE,SHEET_TYPE
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO T_FK_SHEET (
+        	ID ,
+        	BUSI_TYPE ,
+        	CUSTOMER_NAME ,
+        	ORDER_SIGN ,
+        	CUSTOMER_ID ,
+        	USER_ID ,
+        	PRODUCT_CODE ,
+        	SHEET_NO ,
+        	CITY ,
+        	MARKETING_CENTER ,
+        	AREA ,
+        	INSTALLED_ADDR ,
+        	LINK_NAME ,
+        	LINK_PHONE ,
+        	PACKAGES ,
+        	ACCEPT_TIME ,
+        	MANAGER_NAME ,
+        	MANAGER_PHONE ,
+        	UP_BANDWIDTH ,
+        	DOWN_BANDWIDTH ,
+        	MAX_BANDWIDTH ,
+        	IP_NUM ,
+        	CPE_TYPE ,
+        	USER_ID_NO ,
+        	CPE_DEVICE_CODE ,
+        	SHEET_TYPE 
+        ) VALUES (
+        	#{id} ,
+        	#{busiType} ,
+        	#{customerName} ,
+        	#{orderSign} ,
+        	#{customerId} ,
+        	#{userId} ,
+        	#{productCode} ,
+        	#{sheetNo} ,
+        	#{city} ,
+        	#{marketingCenter} ,
+        	#{area} ,
+        	#{installedAddr} ,
+        	#{linkName} ,
+        	#{linkPhone} ,
+        	#{packages} ,
+        	#{acceptTime} ,
+        	#{managerName} ,
+        	#{managerPhone} ,
+        	#{upBandwidth} ,
+        	#{downBandwidth} ,
+        	#{maxBandwidth} ,
+        	#{ipNum} ,
+        	#{cpeType} ,
+        	#{userIdNo} ,
+        	#{cpeDeviceCode} ,
+        	#{sheetType} 
+        )
+    ]]>
+		<!-- oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName <selectKey resultType="java.lang.Long" 
+			order="BEFORE" keyProperty="userId"> SELECT sequenceName.nextval AS ID FROM 
+			DUAL </selectKey> -->
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE T_FK_SHEET SET
+	        BUSI_TYPE = #{busiType} ,
+	        CUSTOMER_NAME = #{customerName} ,
+	        ORDER_SIGN = #{orderSign} ,
+	        CUSTOMER_ID = #{customerId} ,
+	        USER_ID = #{userId} ,
+	        PRODUCT_CODE = #{productCode} ,
+	        SHEET_NO = #{sheetNo} ,
+	        CITY = #{city} ,
+	        MARKETING_CENTER = #{marketingCenter} ,
+	        AREA = #{area} ,
+	        INSTALLED_ADDR = #{installedAddr} ,
+	        LINK_NAME = #{linkName} ,
+	        LINK_PHONE = #{linkPhone} ,
+	        PACKAGES = #{packages} ,
+	        ACCEPT_TIME = #{acceptTime} ,
+	        MANAGER_NAME = #{managerName} ,
+	        MANAGER_PHONE = #{managerPhone} ,
+	        UP_BANDWIDTH = #{upBandwidth} ,
+	        DOWN_BANDWIDTH = #{downBandwidth} ,
+	        MAX_BANDWIDTH = #{maxBandwidth} ,
+	        IP_NUM = #{ipNum} ,
+	        CPE_TYPE = #{cpeType} ,
+	        USER_ID_NO = #{userIdNo} ,
+	        CPE_DEVICE_CODE = #{cpeDeviceCode} ,
+	        SHEET_TYPE = #{sheetType} 
+        WHERE 
+	        ID = #{id} 
+    ]]>
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM T_FK_SHEET WHERE
+        ID = #{id} 
+    ]]>
+	</delete>
+
+	<select id="getById" resultMap="TfkSheet">
+		SELECT
+		<include refid="columns" />
+	    <![CDATA[
+		    FROM T_FK_SHEET 
+	        WHERE 
+		        ID = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="findPageWhere">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用codegen中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND ID = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(busiType)">
+				AND BUSI_TYPE = #{busiType}
+			</if>
+			<if test="@Ognl@isNotEmpty(customerName)">
+				AND CUSTOMER_NAME = #{customerName}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderSign)">
+				AND ORDER_SIGN = #{orderSign}
+			</if>
+			<if test="@Ognl@isNotEmpty(customerId)">
+				AND CUSTOMER_ID = #{customerId}
+			</if>
+			<if test="@Ognl@isNotEmpty(userId)">
+				AND USER_ID = #{userId}
+			</if>
+			<if test="@Ognl@isNotEmpty(productCode)">
+				AND PRODUCT_CODE = #{productCode}
+			</if>
+			<if test="@Ognl@isNotEmpty(sheetNo)">
+				AND SHEET_NO = #{sheetNo}
+			</if>
+			<if test="@Ognl@isNotEmpty(city)">
+				AND CITY = #{city}
+			</if>
+			<if test="@Ognl@isNotEmpty(marketingCenter)">
+				AND MARKETING_CENTER = #{marketingCenter}
+			</if>
+			<if test="@Ognl@isNotEmpty(area)">
+				AND AREA = #{area}
+			</if>
+			<if test="@Ognl@isNotEmpty(installedAddr)">
+				AND INSTALLED_ADDR = #{installedAddr}
+			</if>
+			<if test="@Ognl@isNotEmpty(linkName)">
+				AND LINK_NAME = #{linkName}
+			</if>
+			<if test="@Ognl@isNotEmpty(linkPhone)">
+				AND LINK_PHONE = #{linkPhone}
+			</if>
+			<if test="@Ognl@isNotEmpty(packages)">
+				AND PACKAGES = #{packages}
+			</if>
+			<if test="@Ognl@isNotEmpty(acceptTimeBegin)">
+				AND ACCEPT_TIME >= #{acceptTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(acceptTimeEnd)">
+				AND ACCEPT_TIME &lt;= #{acceptTimeEnd}
+			</if>
+			<if test="@Ognl@isNotEmpty(managerName)">
+				AND MANAGER_NAME = #{managerName}
+			</if>
+			<if test="@Ognl@isNotEmpty(managerPhone)">
+				AND MANAGER_PHONE = #{managerPhone}
+			</if>
+			<if test="@Ognl@isNotEmpty(upBandwidth)">
+				AND UP_BANDWIDTH = #{upBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(downBandwidth)">
+				AND DOWN_BANDWIDTH = #{downBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(maxBandwidth)">
+				AND MAX_BANDWIDTH = #{maxBandwidth}
+			</if>
+			<if test="@Ognl@isNotEmpty(ipNum)">
+				AND IP_NUM = #{ipNum}
+			</if>
+			<if test="@Ognl@isNotEmpty(cpeType)">
+				AND CPE_TYPE = #{cpeType}
+			</if>
+			<if test="@Ognl@isNotEmpty(userIdNo)">
+				AND USER_ID_NO = #{userIdNo}
+			</if>
+			<if test="@Ognl@isNotEmpty(cpeDeviceCode)">
+				AND CPE_DEVICE_CODE = #{cpeDeviceCode}
+			</if>
+			<if test="@Ognl@isNotEmpty(sheetType)">
+				AND SHEET_TYPE = #{sheetType}
+			</if>
+		</where>
+	</sql>
+
+
+	<select id="findPage" resultMap="TfkSheet">
+		SELECT
+		<include refid="columns" />
+		FROM T_FK_SHEET
+		<include refid="findPageWhere" />
+
+	</select>
+
+
+
+</mapper>
+
